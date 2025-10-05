@@ -1,6 +1,7 @@
 <?php 
-if ($_GET['member'] === 'false'){
-    header('Location: signup.php'); 
+$member = $_GET['member'] ?? null;
+if ($member === null || $member === 'false') {
+    header('Location: signup.php');
     exit;
 }
 ?>
