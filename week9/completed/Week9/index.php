@@ -7,8 +7,8 @@ $pdo = db();
 
 // Load dropdown options
 
-$sqList = buildSqlList();
-$stmtList = $pdo->query($sqList);
+$sqlList  = buildSqlList();
+$stmtList = $pdo->query($sqlList);
 
 
 
@@ -17,7 +17,7 @@ $stmtList = $pdo->query($sqList);
 $selectedID = isset($_GET['game_id']) ? $_GET['game_id'] : 0;
 $sqlMain = buildSqlMain($selectedID);
 echo "<pre>$sqlMain</pre>";
-$stmtList = $pdo->query($sqList);
+$stmtMain = $pdo->query($sqlMain);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -65,12 +65,13 @@ $stmtList = $pdo->query($sqList);
             <option value="">-- All Games --</option>
             <!-- GET GAMES from the database -->
 
-            <?php 
-                while ($opt = $stntList->fetch()){
-                    $gameID = $opt['game_id'];
-                    $game = $opt['title'];
-                    echo("<option value='$gameID'> $game </option>'");
-                }
+            <?php while ($opt = $stmtList->fetch())
+            {
+                $gameID = $opt['game_id'];
+                $game = $opt['title'];
+                echo("<option value='$gameID'> $game </option>");
+
+            }
             ?>
 
         </select>
@@ -87,13 +88,14 @@ $stmtList = $pdo->query($sqList);
         </thead>
         <tbody>
             <!-- Fill main table -->
-             <?php while ($row = $stmtMain-> fetch()):?>
-                    <tr>
-                        <td><?=$row['game_id']?></td>
-                        <td><?=$row['title']?></td>
-                        <td><?=number_format((float)$row['price'],2)?></td>
-                    </tr>
-             <?php endwhile; ?>
+             <?php while ($row = $stmtMain->fetch()):?>
+                <tr>
+                    <td><?=$row['code']?></td>
+                    <td><?=$row['title']?></td>
+                    <td><?=number_format((float)$row['price'],2)?></td>
+                </tr>
+
+            <?php endwhile; ?>
         </tbody>
     </table>
 
